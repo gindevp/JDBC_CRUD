@@ -16,6 +16,7 @@ public class UserDAO implements IUserDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM USERS";
     private static final String DELETE_USERS_SQL = "DELETE FROM USERS WHERE ID=?";
     private static final String UPDATE_USERS_SQL = "UPDATE USERS SET NAME=?,EMAIL=?,COUNTRY=? WHERE ID=?";
+    private static final String FIND_USERS_BY_COUNTRY = "select * from users where country=?";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -61,6 +62,25 @@ public class UserDAO implements IUserDAO {
                 String email = rs.getString("email");
                 String country = rs.getString("country");
                 user = new User(id, name, email, country);
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return user;
+    }
+    public User selectUserByCountry(String country){
+        User user = null;
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_USERS_BY_COUNTRY)) {
+            preparedStatement.setString(1, country);
+            System.out.println(preparedStatement);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id= rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String country1 = rs.getString("country");
+                user = new User(id, name, email, country1);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -128,6 +148,7 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+
     public static void main(String[] args) {
         UserDAO userDAO= new UserDAO();
         userDAO.getConnection();
@@ -137,5 +158,6 @@ public class UserDAO implements IUserDAO {
             System.out.println(x.toString());
         }
     }
+
 }
 

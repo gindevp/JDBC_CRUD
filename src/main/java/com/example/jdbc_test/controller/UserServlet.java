@@ -35,10 +35,22 @@ private UserDAO userDAO;
                 case "edit":
                     updateUser(req,resp);
                     break;
+                case "search":
+                    searchUserByCountry(req,resp);
+                    break;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void searchUserByCountry(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String search= req.getParameter("searchByCountry");
+
+        User user=new UserDAO().selectUserByCountry(search);
+        req.setAttribute("user",user);
+        RequestDispatcher dispatcher= req.getRequestDispatcher("user/viewSearch.jsp");
+        dispatcher.forward(req,resp);
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
