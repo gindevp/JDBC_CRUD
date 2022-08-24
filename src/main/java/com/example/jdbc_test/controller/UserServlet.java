@@ -47,7 +47,7 @@ private UserDAO userDAO;
     private void searchUserByCountry(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search= req.getParameter("searchByCountry");
 
-        User user=new UserDAO().selectUserByCountry(search);
+        List<User> user=new UserDAO().selectUserByCountry(search);
         req.setAttribute("user",user);
         RequestDispatcher dispatcher= req.getRequestDispatcher("user/viewSearch.jsp");
         dispatcher.forward(req,resp);
@@ -92,6 +92,9 @@ private UserDAO userDAO;
                 case "delete":
                     deleteUser(req,resp);
                     break;
+                case "sort":
+                    sortName(req,resp);
+                    break;
                 default:
                     listUser(req,resp);
                     break;
@@ -99,6 +102,13 @@ private UserDAO userDAO;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void sortName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<User> userList= userDAO.sortName();
+        req.setAttribute("listUser",userList);
+        RequestDispatcher dispatcher= req.getRequestDispatcher("user/list.jsp");
+        dispatcher.forward(req,resp);
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -27,10 +27,11 @@
           Search User by country
         </h2>
       </caption>
-      <c:if test="${user != null}">
-        <input type="hidden" name="id" value="<c:out value='${user.id}' />"/>
-      </c:if>
+ <c:forEach var="user" items="${requestScope.user}">
+
+<tr><th>ID:</th><td ><input name="id" value="${user.id} "/></td></tr>
       <tr>
+
         <th>User Name:</th>
         <td>
           <input type="text" name="name" size="45"
@@ -54,6 +55,7 @@
           />
         </td>
       </tr>
+ </c:forEach>
     </table>
   </form>
 </div>
