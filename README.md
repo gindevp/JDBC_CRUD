@@ -30,6 +30,7 @@ public interface DAO <E,K>{
 }
   
  CRUD:
+    
   Read:
   public List<User> selectAllUsers() {
         List<User> users = new ArrayList<>();
