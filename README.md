@@ -54,7 +54,7 @@ public interface DAO <E,K>{
   PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
             preparedStatement.setString(1, user.getName());
 ..
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             printSQLException(e);
         }
